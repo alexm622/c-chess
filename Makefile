@@ -1,0 +1,28 @@
+IDIR=include
+CC=gcc
+CFLAGS=-I$(IDIR)
+
+ODIR=src
+LDIR =/usr/local/lib
+
+LIBS=-lm -lncursesw
+
+_DEPS = *.h
+DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
+
+_OBJ = gui.o main.o 
+OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
+
+
+$(ODIR)/%.o: %.c $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+chess: $(OBJ)
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+debug: CFLAGS += -DDEBUG -g
+debug: chess
+
+.PHONY: clean
+
+clean:
+	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~ 
