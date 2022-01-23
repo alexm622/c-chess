@@ -1,6 +1,6 @@
 IDIR=include
 CC=gcc
-CFLAGS=-I$(IDIR)
+CFLAGS=-I$(IDIR) -DNCURSES_WIDECHAR=1 
 
 ODIR=src
 LDIR =/usr/local/lib

@@ -52,7 +52,7 @@ Mkfile.old
 dkms.conf
 
 #compiled exe
-tetris
+chess
 
 
 #ccls stuff

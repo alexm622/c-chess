@@ -1,9 +1,18 @@
 #ifndef GUI_H
 #define GUI_H
 
-//something something something
+int cursor_x;
+int cursor_y;
 
-void draw();
+long window_x;
+long  window_y;
 
+void start();
+
+void init_colors();
+
+void build_charset();
+
+void draw_charset();
 #endif
 
