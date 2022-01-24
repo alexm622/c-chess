@@ -1,5 +1,6 @@
 #include "gui.h"
 
+#include "board.h"
 #include "characters.h"
 
 #include <curses.h>
@@ -57,4 +58,17 @@ void build_charset() {
   charset[10] = B_BISHOP;
   charset[11] = B_KNIGHT;
   charset[12] = B_PAWN;
+}
+
+void draw_board(Board *board) {
+  cursor_x = 0;
+  cursor_y = 0;
+  for (int y = 0; y < BOARD_L; y++) {
+    for (int x = 0; x < BOARD_W; x++) {
+      mvaddwstr(cursor_y, cursor_x, charset[board->tiles[x][y]->tile]);
+      cursor_x++;
+    }
+    cursor_x = 0;
+    cursor_y++;
+  }
 }

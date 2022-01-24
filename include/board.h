@@ -3,30 +3,32 @@
 
 #include <stdbool.h>
 
-#define COLOR_WHITE true
-#define COLOR_BLACK false
+#define IS_WHITE true
+#define IS_BLACK false
 
 #define BOARD_W 8
 #define BOARD_L 8
 
-typedef enum TILE{
+
+
+typedef enum {
 	//none
-	EMPTY = 0,
+	EMPTY_TILE = 0,
 	//white
-	W_KING = 1,
-	W_QUEEN = 2,
-	W_ROOK = 3,
-	W_BISHOP = 4,
-	W_KNIGHT = 5,
-	W_PAWN = 6,
+	WHITE_KING = 1,
+	WHITE_QUEEN = 2,
+	WHITE_ROOK = 3,
+	WHITE_BISHOP = 4,
+	WHITE_KNIGHT = 5,
+	WHITE_PAWN = 6,
 
 	//black
-	B_KING = 7,
-	B_QUEEN = 8,
-	B_ROOK = 9,
-	B_BISHOP = 10,
-	B_KNIGHT = 11,
-	B_PAWN = 12
+	BLACK_KING = 7,
+	BLACK_QUEEN = 8,
+	BLACK_ROOK = 9,
+	BLACK_BISHOP = 10,
+	BLACK_KNIGHT = 11,
+	BLACK_PAWN = 12
 
 
 }TILE;
@@ -39,15 +41,15 @@ typedef struct Board{
 	Tile*** tiles;
 }Board;
 
-Board* board;
 
-bool board_initialized = false;
 
-void set_board(bool color);
 
-void alloc_board();
 
-void set_white(bool color);
-void set_black(bool color);
+Board* set_board(bool color, bool initialized);
+
+Board* alloc_board(Board* board, bool board_initialized);
+
+void set_white(bool color, Board* board);
+void set_black(bool color, Board* board);
 
 #endif

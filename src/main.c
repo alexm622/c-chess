@@ -2,6 +2,7 @@
 #include <ncursesw/ncurses.h>
 #include <stdio.h>
 
+#include "board.h"
 #include "gui.h"
 
 long window_x;
@@ -21,7 +22,9 @@ int main(void) {
 
   clear();
 
+  Board *board = set_board(true, false);
   start();
+  draw_board(board);
 
   cbreak();
   refresh();
