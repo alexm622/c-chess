@@ -1,6 +1,7 @@
 #include <locale.h>
 #include <ncursesw/ncurses.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #include "board.h"
 #include "gui.h"
@@ -22,12 +23,14 @@ int main(void) {
 
   clear();
 
-  Board *board = set_board(true, false);
+  Board *board = set_board(false, false);
   start();
-  draw_board(board);
-
-  cbreak();
-  refresh();
+  while (true) {
+    draw_board(board);
+    cbreak();
+    refresh();
+    usleep(100000);
+  }
 
   return 0;
 }

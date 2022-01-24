@@ -15,9 +15,9 @@ const wchar_t **charset;
 void start() {
   init_colors();
   build_charset();
-  mvaddstr(cursor_x, cursor_y, "drawing characters");
+  // mvaddstr(cursor_x, cursor_y, "drawing characters");
   cursor_y++;
-  draw_charset();
+  // draw_charset();
 }
 
 void init_colors() {
@@ -61,14 +61,28 @@ void build_charset() {
 }
 
 void draw_board(Board *board) {
+  const char *boardletter = "abcdefgh";
   cursor_x = 0;
   cursor_y = 0;
+  // draw letters
+  mvaddstr(0, 1, boardletter);
+  mvaddstr(BOARD_L + 1, 1, boardletter);
+  // draw number
+  char str[2];
+  for (int i = 1; i <= BOARD_L; i++) {
+    sprintf(str, "%d", i);
+    mvaddstr(i, 0, str);
+    mvaddstr(i, BOARD_W + 1, str);
+  }
+
+  cursor_x++;
+  cursor_y++;
   for (int y = 0; y < BOARD_L; y++) {
     for (int x = 0; x < BOARD_W; x++) {
-      mvaddwstr(cursor_y, cursor_x, charset[board->tiles[x][y]->tile]);
+      mvaddwstr(cursor_y, cursor_x, charset[board->tiles[x][y]]);
       cursor_x++;
     }
-    cursor_x = 0;
+    cursor_x = 1;
     cursor_y++;
   }
 }

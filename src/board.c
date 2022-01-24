@@ -16,12 +16,11 @@ Board *alloc_board(Board *board, bool board_initialized) {
   if (board_initialized) {
     return board;
   }
-  board->tiles = malloc(sizeof(Tile ***));
+  board->tiles = malloc(sizeof(long **));
   for (int y = 0; y < BOARD_L; y++) {
-    board->tiles[y] = calloc(sizeof(Tile **), BOARD_W);
+    board->tiles[y] = calloc(sizeof(long **), BOARD_W);
     for (int x = 0; x < BOARD_W; x++) {
-      board->tiles[y][x] = malloc(sizeof(Tile));
-      board->tiles[y][x]->tile = EMPTY_TILE;
+      board->tiles[y][x] = EMPTY_TILE;
     }
   }
   board_initialized = true;
@@ -35,18 +34,18 @@ void set_white(bool color, Board *board) {
   y = yoff;
   // set the tiles:
   for (int i = 0; i < BOARD_W; i++) {
-    board->tiles[i][y]->tile = WHITE_PAWN;
+    board->tiles[i][y] = WHITE_PAWN;
   }
   y += (color == IS_WHITE) ? 1 : -1;
   // draw the rest of the tiles
-  board->tiles[0][y]->tile = WHITE_ROOK;
-  board->tiles[1][y]->tile = WHITE_KNIGHT;
-  board->tiles[2][y]->tile = WHITE_BISHOP;
-  board->tiles[3][y]->tile = (color == IS_WHITE) ? WHITE_QUEEN : WHITE_KING;
-  board->tiles[4][y]->tile = (color == IS_BLACK) ? WHITE_QUEEN : WHITE_KING;
-  board->tiles[5][y]->tile = WHITE_BISHOP;
-  board->tiles[6][y]->tile = WHITE_KNIGHT;
-  board->tiles[7][y]->tile = WHITE_ROOK;
+  board->tiles[0][y] = WHITE_ROOK;
+  board->tiles[1][y] = WHITE_KNIGHT;
+  board->tiles[2][y] = WHITE_BISHOP;
+  board->tiles[3][y] = (color == IS_WHITE) ? WHITE_QUEEN : WHITE_KING;
+  board->tiles[4][y] = (color == IS_BLACK) ? WHITE_QUEEN : WHITE_KING;
+  board->tiles[5][y] = WHITE_BISHOP;
+  board->tiles[6][y] = WHITE_KNIGHT;
+  board->tiles[7][y] = WHITE_ROOK;
 }
 
 void set_black(bool color, Board *board) {
@@ -56,16 +55,16 @@ void set_black(bool color, Board *board) {
   y = yoff;
   // set the tiles:
   for (int i = 0; i < BOARD_W; i++) {
-    board->tiles[i][y]->tile = BLACK_PAWN;
+    board->tiles[i][y] = BLACK_PAWN;
   }
-  y += (color == IS_WHITE) ? 1 : -1;
+  y += (color == IS_WHITE) ? -1 : 1;
   // draw the rest of the tiles
-  board->tiles[0][y]->tile = BLACK_ROOK;
-  board->tiles[1][y]->tile = BLACK_KNIGHT;
-  board->tiles[2][y]->tile = BLACK_BISHOP;
-  board->tiles[3][y]->tile = (color == IS_WHITE) ? BLACK_QUEEN : BLACK_KING;
-  board->tiles[4][y]->tile = (color == IS_BLACK) ? BLACK_QUEEN : BLACK_KING;
-  board->tiles[5][y]->tile = BLACK_BISHOP;
-  board->tiles[6][y]->tile = BLACK_KNIGHT;
-  board->tiles[7][y]->tile = BLACK_ROOK;
+  board->tiles[0][y] = BLACK_ROOK;
+  board->tiles[1][y] = BLACK_KNIGHT;
+  board->tiles[2][y] = BLACK_BISHOP;
+  board->tiles[3][y] = (color == IS_WHITE) ? BLACK_QUEEN : BLACK_KING;
+  board->tiles[4][y] = (color == IS_BLACK) ? BLACK_QUEEN : BLACK_KING;
+  board->tiles[5][y] = BLACK_BISHOP;
+  board->tiles[6][y] = BLACK_KNIGHT;
+  board->tiles[7][y] = BLACK_ROOK;
 }

@@ -11,34 +11,33 @@
 
 
 
-typedef enum {
-	//none
-	EMPTY_TILE = 0,
-	//white
-	WHITE_KING = 1,
-	WHITE_QUEEN = 2,
-	WHITE_ROOK = 3,
-	WHITE_BISHOP = 4,
-	WHITE_KNIGHT = 5,
-	WHITE_PAWN = 6,
+//none
+#define EMPTY_TILE 0
+//white
+#define WHITE_KING 1
+#define WHITE_QUEEN 2
+#define WHITE_ROOK 3
+#define WHITE_BISHOP 4
+#define WHITE_KNIGHT 5
+#define WHITE_PAWN 6
 
-	//black
-	BLACK_KING = 7,
-	BLACK_QUEEN = 8,
-	BLACK_ROOK = 9,
-	BLACK_BISHOP = 10,
-	BLACK_KNIGHT = 11,
-	BLACK_PAWN = 12
+//black
+#define BLACK_KING 7
+#define BLACK_QUEEN 8
+#define BLACK_ROOK 9
+#define BLACK_BISHOP 10
+#define BLACK_KNIGHT 11
+#define	BLACK_PAWN 12
 
 
-}TILE;
+
 
 typedef struct Tile{
-	TILE tile;
+	long tile;
 }Tile;
 
 typedef struct Board{
-	Tile*** tiles;
+	long** tiles;
 }Board;
 
 

@@ -13,13 +13,13 @@ typedef struct Piece{
 	bool xor_or_and;
 	bool limit;
 	bool is_pawn;
-	TILE Piece;
+	long Piece;
 	bool color; 
 } Piece;
 //a single move
 typedef struct Move {
-	char* start;
-	char* end;
+	short start; //a 16 bit representation of the move
+	short end;
 } Move;
 //all possible moves for piece
 typedef struct Moves{
@@ -32,7 +32,7 @@ typedef struct Moves{
 //checks to see if move is valid
 bool is_valid_move(Move move, Board board);
 //attempts to make a move
-bool make_move(char* start, char* end);
+bool make_move(short start, short end);
 //calculate all possible moves for piece p
 Moves calculate_moves(Piece p);
 //checks if player is in check
