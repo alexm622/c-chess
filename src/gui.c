@@ -8,15 +8,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-int cursor_x = 0;
-int cursor_y = 0;
-
 const wchar_t **charset;
 void start() {
   init_colors();
   build_charset();
   // mvaddstr(cursor_x, cursor_y, "drawing characters");
-  cursor_y++;
   // draw_charset();
 }
 
@@ -31,6 +27,8 @@ void init_colors() {
 }
 
 void draw_charset() {
+  int cursor_y = 0;
+  int cursor_x = 0;
   for (int i = 0; i < charset_size; i++) {
     mvaddwstr(cursor_y, cursor_x, charset[i]);
     cursor_y++;
@@ -62,8 +60,8 @@ void build_charset() {
 
 void draw_board(Board *board) {
   const char *boardletter = "abcdefgh";
-  cursor_x = 0;
-  cursor_y = 0;
+  int cursor_x = 0;
+  int cursor_y = 0;
   // draw letters
   mvaddstr(0, 1, boardletter);
   mvaddstr(BOARD_L + 1, 1, boardletter);

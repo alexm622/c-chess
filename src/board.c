@@ -11,13 +11,14 @@ Board *set_board(bool color, bool initialized) {
 }
 
 // allocate memory for the board
+// TODO for some reason the defines are not working properly
 Board *alloc_board(Board *board, bool board_initialized) {
   if (board_initialized) {
     return board;
   }
-  board->tiles = malloc(sizeof(long **));
+  board->tiles = malloc(sizeof(long *) * 8);
   for (int y = 0; y < BOARD_L; y++) {
-    board->tiles[y] = calloc(sizeof(long **), BOARD_W);
+    board->tiles[y] = calloc(sizeof(long *), 8);
     for (int x = 0; x < BOARD_W; x++) {
       board->tiles[y][x] = EMPTY_TILE;
     }

@@ -194,6 +194,18 @@ Moves pawn_moves(Board *board, short position, bool color) {
   }
   return moves;
 }
+// TODO finish this as well
+Moves knight_moves(Board *board, short position) {
+  Moves moves;
+  moves.moves_len = 0;
+  return moves;
+}
+// TODO finish this
+Moves rook_moves(Board *board, short position) {
+  Moves moves;
+  moves.moves_len = 0;
+  return moves;
+}
 
 Moves queen_moves(Board *board, short location) {
   Moves move_rook = rook_moves(board, location);

@@ -3,11 +3,7 @@
 
 #include "board.h"
 
-int cursor_x;
-int cursor_y;
 
-long window_x;
-long  window_y;
 
 void start();
 

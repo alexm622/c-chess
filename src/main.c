@@ -23,7 +23,7 @@ int main(void) {
 
   clear();
 
-  Board *board = set_board(false, false);
+  Board *board = set_board(true, false);
   start();
   while (true) {
     draw_board(board);
