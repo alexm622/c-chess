@@ -4,18 +4,6 @@
 #include "board.h"
 
 #include <stdbool.h>
-//a piece
-typedef struct Piece{
-	int x_mov;
-	int y_mov;
-	int posx;
-	int posy;
-	bool xor_or_and;
-	bool limit;
-	bool is_pawn;
-	long Piece;
-	bool color; 
-} Piece;
 //a single move
 typedef struct Move {
 	short start; //a 16 bit representation of the move
@@ -27,19 +15,30 @@ typedef struct Moves{
 	int moves_len;
 } Moves;
 
-
+Moves knight_moves(Board* board, short location);
+Moves bishop_moves(Board* board, short location);
+Moves pawn_moves(Board* board, short location, bool color);
+Moves king_moves(short location);
+Moves queen_moves(Board* board, short location);
+Moves rook_moves(Board* board, short location);
 
 //checks to see if move is valid
-bool is_valid_move(Move move, Board board);
+bool is_valid_move(Move move, Board* board, long piece);
 //attempts to make a move
 bool make_move(short start, short end);
 //calculate all possible moves for piece p
-Moves calculate_moves(Piece p);
+Moves calculate_moves(Board* board, short position, bool color);
 //checks if player is in check
-bool is_check(Board board, bool player);
-//tests for check state change for Move move
-bool changes_check(Board board, bool is_check, Move move);
-//turn tile enum into Piece type
-Piece get_piece(Board board, int x, int y);
+bool is_check(Board* board, bool player);
 
+//devise a "hot squares" method for determining check
+bool is_checkmate(Board* board, bool player);
+
+//TODO need something to handle pawn promotion
+
+//remove invalid moves
+void remove_invalid(Moves* moves, bool color);
+
+void free_moves(Moves moves);
+void expand_moves(Moves *moves);
 #endif

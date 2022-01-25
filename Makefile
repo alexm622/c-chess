@@ -1,6 +1,7 @@
 IDIR=include
 CC=gcc
-CFLAGS=-I$(IDIR) -DNCURSES_WIDECHAR=1 
+WARNINGS= -Wall -Wextra -Wshadow -Wswitch-enum -Wstack-protector -Wdate-time -Walloc-zero -Walloca -Wimplicit-function-declaration
+CFLAGS=-I$(IDIR) -DNCURSES_WIDECHAR=1 -D_XOPEN_SOURCE_EXTENDED1 $(WARNINGS) -std=c99
 
 ODIR=src
 LDIR =/usr/local/lib

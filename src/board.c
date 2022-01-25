@@ -1,7 +1,6 @@
 #include "board.h"
 
 #include <stdlib.h>
-bool board_initialized = false;
 Board *set_board(bool color, bool initialized) {
   Board *board = malloc(sizeof(Board));
 
