@@ -5,7 +5,7 @@
 
 #include "board.h"
 #include "gui.h"
-
+#include "pieces.h"
 long window_x;
 long window_y;
 
@@ -29,7 +29,7 @@ int main(void) {
     draw_board(board);
     cbreak();
     refresh();
-    usleep(100000);
+    usleep(1000000);
   }
 
   return 0;

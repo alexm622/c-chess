@@ -198,6 +198,88 @@ Moves pawn_moves(Board *board, short position, bool color) {
 Moves knight_moves(Board *board, short position) {
   Moves moves;
   moves.moves_len = 0;
+
+  short piece_y = (position ^ 0x00FF);
+  short piece_x = (position ^ 0xFF00) >> 8;
+  // vertical
+  if (piece_x >= 1) {
+    // up left
+    if (piece_y < 7 - 3) {
+      short end_pos = (piece_y + 3) | ((piece_x - 1) >> 8);
+      Move *move = malloc(sizeof(Move));
+      move->end = end_pos;
+      expand_moves(&moves);
+      moves.moves[moves.moves_len - 1] = move;
+    }
+    // down left
+    if (piece_y > 3) {
+      short end_pos = (piece_y - 3) | ((piece_x - 1) >> 8);
+      Move *move = malloc(sizeof(Move));
+      move->end = end_pos;
+      expand_moves(&moves);
+      moves.moves[moves.moves_len - 1] = move;
+    }
+  }
+  // vertical
+  if (piece_x < 7) {
+    // up right
+    if (piece_y < 7 - 3) {
+      short end_pos = (piece_y + 3) | ((piece_x + 1) >> 8);
+      Move *move = malloc(sizeof(Move));
+      move->end = end_pos;
+      expand_moves(&moves);
+      moves.moves[moves.moves_len - 1] = move;
+    }
+    // down right
+    if (piece_y > 3) {
+      short end_pos = (piece_y - 3) | ((piece_x + 1) >> 8);
+      Move *move = malloc(sizeof(Move));
+      move->end = end_pos;
+      expand_moves(&moves);
+      moves.moves[moves.moves_len - 1] = move;
+    }
+  }
+
+  // horizontal
+  if (piece_y >= 1) {
+    // right down
+    if (piece_x < 7 - 3) {
+      short end_pos = (piece_y - 1) | ((piece_x + 3) >> 8);
+      Move *move = malloc(sizeof(Move));
+      move->end = end_pos;
+      expand_moves(&moves);
+      moves.moves[moves.moves_len - 1] = move;
+    }
+    // left down
+    if (piece_x > 3) {
+      short end_pos = (piece_y - 1) | ((piece_x - 3) >> 8);
+      Move *move = malloc(sizeof(Move));
+      move->end = end_pos;
+      expand_moves(&moves);
+      moves.moves[moves.moves_len - 1] = move;
+    }
+  }
+  // horizontal
+  if (piece_y <= 7 - 3) {
+    // right up
+    if (piece_x < 7 - 3) {
+      short end_pos = (piece_y + 1) | ((piece_x + 3) >> 8);
+      Move *move = malloc(sizeof(Move));
+      move->end = end_pos;
+      expand_moves(&moves);
+      moves.moves[moves.moves_len - 1] = move;
+    }
+    // left down
+    if (piece_x > 3) {
+      short end_pos = (piece_y + 1) | ((piece_x - 3) >> 8);
+      Move *move = malloc(sizeof(Move));
+      move->end = end_pos;
+      expand_moves(&moves);
+      moves.moves[moves.moves_len - 1] = move;
+    }
+  }
+
+  // left and right
   return moves;
 }
 // TODO finish this
