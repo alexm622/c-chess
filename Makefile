@@ -11,7 +11,7 @@ LIBS=-lm -lncursesw
 _DEPS = *.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = board.o pieces.o gui.o main.o 
+_OBJ = debug.o board.o pieces.o gui.o main.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 

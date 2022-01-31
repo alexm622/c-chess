@@ -205,7 +205,7 @@ Moves knight_moves(Board *board, short position) {
   if (piece_x >= 1) {
     // up left
     if (piece_y < 7 - 3) {
-      short end_pos = (piece_y + 3) | ((piece_x - 1) >> 8);
+      short end_pos = (piece_y + 3) | ((piece_x - 1) << 8);
       Move *move = malloc(sizeof(Move));
       move->end = end_pos;
       expand_moves(&moves);
@@ -213,7 +213,7 @@ Moves knight_moves(Board *board, short position) {
     }
     // down left
     if (piece_y > 3) {
-      short end_pos = (piece_y - 3) | ((piece_x - 1) >> 8);
+      short end_pos = (piece_y - 3) | ((piece_x - 1) << 8);
       Move *move = malloc(sizeof(Move));
       move->end = end_pos;
       expand_moves(&moves);
@@ -224,7 +224,7 @@ Moves knight_moves(Board *board, short position) {
   if (piece_x < 7) {
     // up right
     if (piece_y < 7 - 3) {
-      short end_pos = (piece_y + 3) | ((piece_x + 1) >> 8);
+      short end_pos = (piece_y + 3) | ((piece_x + 1) << 8);
       Move *move = malloc(sizeof(Move));
       move->end = end_pos;
       expand_moves(&moves);
@@ -232,7 +232,7 @@ Moves knight_moves(Board *board, short position) {
     }
     // down right
     if (piece_y > 3) {
-      short end_pos = (piece_y - 3) | ((piece_x + 1) >> 8);
+      short end_pos = (piece_y - 3) | ((piece_x + 1) << 8);
       Move *move = malloc(sizeof(Move));
       move->end = end_pos;
       expand_moves(&moves);
@@ -244,7 +244,7 @@ Moves knight_moves(Board *board, short position) {
   if (piece_y >= 1) {
     // right down
     if (piece_x < 7 - 3) {
-      short end_pos = (piece_y - 1) | ((piece_x + 3) >> 8);
+      short end_pos = (piece_y - 1) | ((piece_x + 3) << 8);
       Move *move = malloc(sizeof(Move));
       move->end = end_pos;
       expand_moves(&moves);
@@ -252,7 +252,7 @@ Moves knight_moves(Board *board, short position) {
     }
     // left down
     if (piece_x > 3) {
-      short end_pos = (piece_y - 1) | ((piece_x - 3) >> 8);
+      short end_pos = (piece_y - 1) | ((piece_x - 3) << 8);
       Move *move = malloc(sizeof(Move));
       move->end = end_pos;
       expand_moves(&moves);
@@ -263,7 +263,7 @@ Moves knight_moves(Board *board, short position) {
   if (piece_y <= 7 - 3) {
     // right up
     if (piece_x < 7 - 3) {
-      short end_pos = (piece_y + 1) | ((piece_x + 3) >> 8);
+      short end_pos = (piece_y + 1) | ((piece_x + 3) << 8);
       Move *move = malloc(sizeof(Move));
       move->end = end_pos;
       expand_moves(&moves);
@@ -271,7 +271,7 @@ Moves knight_moves(Board *board, short position) {
     }
     // left down
     if (piece_x > 3) {
-      short end_pos = (piece_y + 1) | ((piece_x - 3) >> 8);
+      short end_pos = (piece_y + 1) | ((piece_x - 3) << 8);
       Move *move = malloc(sizeof(Move));
       move->end = end_pos;
       expand_moves(&moves);
@@ -284,8 +284,75 @@ Moves knight_moves(Board *board, short position) {
 }
 // TODO finish this
 Moves rook_moves(Board *board, short position) {
+  short piece_y = (position ^ 0x00FF);
+  short piece_x = (position ^ 0xFF00) >> 8;
   Moves moves;
   moves.moves_len = 0;
+  short dist_y_up = 7 - piece_y - 1;
+  short dist_y_down = -1 * (piece_y - 7 + 1);
+  short dist_x_right = 7 - piece_x - 1;
+  short dist_x_left = -1 * (piece_x - 7 + 1);
+  bool breaking = false;
+  for (int vert = 0; vert < dist_y_up; vert++) {
+    if ((board->tiles[piece_y + vert][piece_x] != EMPTY_TILE)) {
+      breaking = true;
+    }
+    Move *move = malloc(sizeof(Move));
+    move->start = position;
+    short end_pos = (piece_y + vert) | ((piece_x) << 8);
+    move->end = end_pos;
+    expand_moves(&moves);
+    moves.moves[moves.moves_len - 1] = move;
+    if (breaking) {
+      breaking = false;
+      break;
+    }
+  }
+  for (int vert = 0; vert > -1 * (dist_y_down); vert--) {
+    if ((board->tiles[piece_y + vert][piece_x] != EMPTY_TILE)) {
+      breaking = true;
+    }
+    Move *move = malloc(sizeof(Move));
+    move->start = position;
+    short end_pos = (piece_y + vert) | ((piece_x) << 8);
+    move->end = end_pos;
+    expand_moves(&moves);
+    moves.moves[moves.moves_len - 1] = move;
+    if (breaking) {
+      breaking = false;
+      break;
+    }
+  }
+  for (int horizontal = 0; horizontal < dist_x_right; horizontal++) {
+    if ((board->tiles[piece_y][piece_x + horizontal] != EMPTY_TILE)) {
+      breaking = true;
+    }
+    Move *move = malloc(sizeof(Move));
+    move->start = position;
+    short end_pos = (piece_y) | ((piece_x + horizontal) << 8);
+    move->end = end_pos;
+    expand_moves(&moves);
+    moves.moves[moves.moves_len - 1] = move;
+    if (breaking) {
+      breaking = false;
+      break;
+    }
+  }
+  for (int horizontal = 0; horizontal > -1 * (dist_y_up); horizontal--) {
+    if ((board->tiles[piece_y][piece_x + horizontal] != EMPTY_TILE)) {
+      breaking = true;
+    }
+    Move *move = malloc(sizeof(Move));
+    move->start = position;
+    short end_pos = (piece_y) | ((piece_x + horizontal) << 8);
+    move->end = end_pos;
+    expand_moves(&moves);
+    moves.moves[moves.moves_len - 1] = move;
+    if (breaking) {
+      breaking = false;
+      break;
+    }
+  }
   return moves;
 }
 
