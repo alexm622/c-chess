@@ -68,3 +68,24 @@ void set_black(bool color, Board *board) {
   board->tiles[6][y] = BLACK_KNIGHT;
   board->tiles[7][y] = BLACK_ROOK;
 }
+
+short charstr_to_short(char* chstr){
+  char vert_a[] = "12345678";
+  char horizontal_a[] = "abcdefgh";
+  char vert = chstr[1];
+  char horizontal = chstr[0];
+  short pos_x, pos_y;
+  for(int i = 0; i < 8; i++){
+    if(vert_a[i] == vert){
+      pos_x = i;
+    }
+  }
+  for(int i = 0; i < 8; i++){
+    if(horizontal_a[i] == horizontal){
+      pos_y = i;
+    }
+  }
+
+  short return_val = (pos_y) | ((pos_x) << 8);
+  return return_val;
+}

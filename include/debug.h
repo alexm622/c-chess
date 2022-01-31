@@ -4,6 +4,6 @@
 #include "pieces.h"
 
 void print_moves(Moves moves);
-char* convert_to_coordinates(short position);
+char* convert_to_coordinates(unsigned short position);
 
 #endif

@@ -24,15 +24,16 @@ void print_moves(Moves moves) {
   }
 }
 
-char *convert_to_coordinates(short position) {
-  char *move = malloc(sizeof(char) * 3);
+char *convert_to_coordinates(unsigned short position) {
+  char *move = malloc(sizeof(char*) *3);
   char move_y, move_x;
-  short piece_x = (position ^ 0x00FF);
-  short piece_y = (position ^ 0xFF00) >> 8;
+  unsigned short piece_x = (position ^ 0x00FF);
+  unsigned short piece_y = (position ^ 0xFF00) >> 8;
   char vert[] = "abcdefgh";
   char horizontal[] = "12345678";
   move_y = vert[piece_y];
   move_x = horizontal[piece_x];
-  sprintf(move, "%s%s", &move_x, &move_y);
+  char str[2] = {move_y, move_x};
+  sprintf(move, "%s", &str);
   return move;
 }

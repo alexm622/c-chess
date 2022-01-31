@@ -51,4 +51,5 @@ Board* alloc_board(Board* board, bool board_initialized);
 void set_white(bool color, Board* board);
 void set_black(bool color, Board* board);
 
+short charstr_to_short(char* chstr);
 #endif
