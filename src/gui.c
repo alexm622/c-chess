@@ -9,13 +9,20 @@
 #include <string.h>
 
 const wchar_t **charset;
+/**
+ * @brief init variables
+ * 
+ */
 void start() {
   init_colors();
   build_charset();
   // mvaddstr(cursor_x, cursor_y, "drawing characters");
   // draw_charset();
 }
-
+/**
+ * @brief init the colors
+ * 
+ */
 void init_colors() {
   start_color();
   // background color
@@ -25,7 +32,10 @@ void init_colors() {
   // white square
   init_pair(3, COLOR_BLACK, COLOR_WHITE);
 }
-
+/**
+ * @brief draw charset on screen
+ * 
+ */
 void draw_charset() {
   int cursor_y = 0;
   int cursor_x = 0;
@@ -34,7 +44,10 @@ void draw_charset() {
     cursor_y++;
   }
 }
-
+/**
+ * @brief build the charset
+ * 
+ */
 void build_charset() {
   charset = malloc(sizeof(const wchar_t *) * charset_size);
   // empty space
@@ -57,7 +70,11 @@ void build_charset() {
   charset[11] = B_KNIGHT;
   charset[12] = B_PAWN;
 }
-
+/**
+ * @brief draw the board on screen
+ * 
+ * @param board the board
+ */
 void draw_board(Board *board) {
   const char *boardletter = "abcdefgh";
   int cursor_x = 0;
@@ -67,17 +84,17 @@ void draw_board(Board *board) {
   mvaddstr(BOARD_L + 1, 1, boardletter);
   // draw number
   char str[2];
-  for (int i = 1; i <= BOARD_L; i++) {
+  for (int i = BOARD_L; i > 0; i--) {
     sprintf(str, "%d", i);
-    mvaddstr(i, 0, str);
-    mvaddstr(i, BOARD_W + 1, str);
+    mvaddstr(BOARD_L + 1 - i, 0, str);
+    mvaddstr(BOARD_L + 1 - i, BOARD_W + 1, str);
   }
 
   cursor_x++;
   cursor_y++;
-  for (int y = 0; y < BOARD_L; y++) {
-    for (int x = 0; x < BOARD_W; x++) {
-      mvaddwstr(cursor_y, cursor_x, charset[board->tiles[x][y]]);
+  for (int y = BOARD_L; y > 0; y--) {
+    for (int x = BOARD_W; x > 0; x--) {
+      mvaddwstr(cursor_y, cursor_x, charset[board->tiles[x-1][y-1]]);
       cursor_x++;
     }
     cursor_x = 1;

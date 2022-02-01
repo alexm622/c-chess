@@ -4,6 +4,7 @@
 #include "pieces.h"
 
 void print_moves(Moves moves);
-char* convert_to_coordinates(unsigned short position);
-
+void printf_moves(Moves moves);
+char* convert_to_coordinates(uint8_t  position);
+void printf_board(Board* board);
 #endif

@@ -1,21 +1,37 @@
 #include "board.h"
 
+#include <stdio.h>
 #include <stdlib.h>
-Board *set_board(bool color, bool initialized) {
-  Board *board = malloc(sizeof(Board));
+#include <stdint.h>
 
-  board = alloc_board(board, initialized);
+/**
+ * @brief Set the board
+ * 
+ * @param board 
+ * @param color 
+ * @param initialized 
+ * @return Board* 
+ */
+Board *set_board(Board* board, bool color, bool initialized) {
+  if(!initialized){
+    board = malloc(sizeof(Board));
+
+    board = alloc_board(board);
+  }
   set_black(color, board);
   set_white(color, board);
   return board;
 }
 
-// allocate memory for the board
-// TODO for some reason the defines are not working properly
-Board *alloc_board(Board *board, bool board_initialized) {
-  if (board_initialized) {
-    return board;
-  }
+
+/**
+ * @brief allocate memory for the board
+ * 
+ * @param board board pointer
+ * @param board_initialized whether the board was initialized before
+ * @return Board* the board
+ */
+Board *alloc_board(Board *board) {
   board->tiles = malloc(sizeof(long *) * 8);
   for (int y = 0; y < BOARD_L; y++) {
     board->tiles[y] = calloc(sizeof(long *), 8);
@@ -23,20 +39,38 @@ Board *alloc_board(Board *board, bool board_initialized) {
       board->tiles[y][x] = EMPTY_TILE;
     }
   }
-  board_initialized = true;
   return board;
 }
+/**
+ * @brief free the board object
+ * 
+ * @param board 
+ */
+void free_board(Board* board){
+  for(int i = 0; i < BOARD_L; i++){
+    free(board->tiles[i]);
+  }
+  free(board->tiles);
+  free(board);
+}
 
+
+/**
+ * @brief Set the white pieces
+ * 
+ * @param color controlled by IS_WHITE and IS_BLACK
+ * @param board the board object
+ */
 void set_white(bool color, Board *board) {
   // offset for where tiles should be placed starting with pawns
   int y;
-  int yoff = (color == IS_WHITE) ? 6 : 1;
+  int yoff = (color == IS_WHITE) ? 1 : 6;
   y = yoff;
   // set the tiles:
   for (int i = 0; i < BOARD_W; i++) {
     board->tiles[i][y] = WHITE_PAWN;
   }
-  y += (color == IS_WHITE) ? 1 : -1;
+  y += (color == IS_WHITE) ? -1 : 1;
   // draw the rest of the tiles
   board->tiles[0][y] = WHITE_ROOK;
   board->tiles[1][y] = WHITE_KNIGHT;
@@ -47,17 +81,22 @@ void set_white(bool color, Board *board) {
   board->tiles[6][y] = WHITE_KNIGHT;
   board->tiles[7][y] = WHITE_ROOK;
 }
-
+/**
+ * @brief Set the black pieces
+ * 
+ * @param color controlled by IS_WHITE and IS_BLACK
+ * @param board the board object
+ */
 void set_black(bool color, Board *board) {
   // offset for where tiles should be placed starting with pawns
   int y;
-  int yoff = (color == IS_BLACK) ? 6 : 1;
+  int yoff = (color == IS_BLACK) ? 1 : 6;
   y = yoff;
   // set the tiles:
   for (int i = 0; i < BOARD_W; i++) {
     board->tiles[i][y] = BLACK_PAWN;
   }
-  y += (color == IS_WHITE) ? -1 : 1;
+  y += (color == IS_WHITE) ? 1 : -1;
   // draw the rest of the tiles
   board->tiles[0][y] = BLACK_ROOK;
   board->tiles[1][y] = BLACK_KNIGHT;
@@ -69,23 +108,29 @@ void set_black(bool color, Board *board) {
   board->tiles[7][y] = BLACK_ROOK;
 }
 
-short charstr_to_short(char* chstr){
+/**
+ * @brief convert the position charstring (ex. e2) to an 8 bit representation
+ * 
+ * @param chstr the character string
+ * @return uint8_t the 8 bit representation of the move
+ */
+uint8_t charstr_to_byte(char* chstr){
   char vert_a[] = "12345678";
   char horizontal_a[] = "abcdefgh";
   char vert = chstr[1];
   char horizontal = chstr[0];
-  short pos_x, pos_y;
-  for(int i = 0; i < 8; i++){
-    if(vert_a[i] == vert){
-      pos_x = i;
+  uint8_t pos_x, pos_y;
+  for(int i = 8; i > 0; i--){
+    if(vert_a[8-i] == vert){
+      pos_y = 8-i;
     }
   }
-  for(int i = 0; i < 8; i++){
-    if(horizontal_a[i] == horizontal){
-      pos_y = i;
+  for(int i = 8; i > 0; i--){
+    if(horizontal_a[8-i] == horizontal){
+      pos_x = 8-i;
     }
   }
-
-  short return_val = (pos_y) | ((pos_x) << 8);
+  //construct the return value
+  uint8_t return_val = (pos_y) | ((pos_x) << 4);
   return return_val;
 }

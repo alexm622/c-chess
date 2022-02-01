@@ -2,6 +2,7 @@
 #define BOARD_H
 
 #include <stdbool.h>
+#include <stdint.h>
 
 #define IS_WHITE true
 #define IS_BLACK false
@@ -31,25 +32,24 @@
 
 
 
-
-typedef struct Tile{
-	long tile;
-}Tile;
-
+/**
+ * the game board
+ */
 typedef struct Board{
-	long** tiles;
+	long** tiles; /** the tiles in the board*/
 }Board;
 
 
 
 
 
-Board* set_board(bool color, bool initialized);
+Board* set_board(Board* board, bool color, bool initialized);
 
-Board* alloc_board(Board* board, bool board_initialized);
+Board* alloc_board(Board* board);
+void free_board(Board* board);
 
 void set_white(bool color, Board* board);
 void set_black(bool color, Board* board);
 
-short charstr_to_short(char* chstr);
+uint8_t charstr_to_byte(char* chstr);
 #endif
